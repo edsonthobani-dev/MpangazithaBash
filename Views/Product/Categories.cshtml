@@ -1,0 +1,60 @@
+﻿@model List<MpangazithaBash.DAL.Tbl_Category>
+
+@{
+    ViewBag.Title = "Categories";
+    Layout = "~/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Categories</h1>
+
+    <!-- Add New Button -->
+    <a href="../Product/AddCategory" class="btn btn-primary mb-3">
+        <i class="fas fa-plus"></i> Add New Category
+    </a>
+
+    <!-- Table -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Category List</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>Category Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@(Model.IndexOf(item) + 1)</td>
+                                    <td>@item.CategoryName</td>
+                                    <td>
+                                        <a href="../Product/UpdateCategory?CategoryId=@item.CategoryId"
+                                           class="btn btn-warning btn-sm">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3">No data found</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

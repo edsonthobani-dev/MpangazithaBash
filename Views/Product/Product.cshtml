@@ -1,0 +1,59 @@
+﻿@model List<MpangazithaBash.DAL.Tbl_Product>
+
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<div class="container-fluid">
+
+    <h1 class="h3 mb-2 text-gray-800">Products</h1>
+
+    <a href="../Product/ProductAdd" class="btn btn-primary mb-3">
+        <i class="fas fa-plus"></i> Add New Product
+    </a>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Product List</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)</th>
+                            
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@(Model.IndexOf(item) + 1)</td>
+                                    <td>@Html.DisplayFor(m => item.ProductName)</td>
+                                    
+                                    <td>
+                                        <a href="../Product/ProductEdit?ProductId=@item.ProductId"
+                                           class="btn btn-warning btn-sm">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8">No data found</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

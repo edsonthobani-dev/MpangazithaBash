@@ -1,0 +1,108 @@
+﻿@model MpangazithaBash.Models.ProductDetail
+
+@{
+    ViewBag.Title = "ProductAdd";
+    Layout = "~/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<div class="container-fluid">
+
+    <h1 class="h3 mb-2 text-gray-800">Add New Product</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            @using (Html.BeginForm("ProductSave", "Product", FormMethod.Post,
+                    new { enctype = "multipart/form-data" }))
+            {
+                @Html.HiddenFor(m => m.ProductId)
+
+                <div class="form-group">
+                    <label class="control-label">Product Name</label>
+                    @Html.TextBoxFor(m => m.ProductName, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Product Name",
+                        required = "required"
+                    })
+                    @Html.ValidationMessageFor(m => m.ProductName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Category</label>
+                    @Html.DropDownListFor(m => m.CategoryId,
+                        new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"),
+                        "-- Select Category --",
+                        new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Price</label>
+                    @Html.TextBoxFor(m => m.Price, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Price",
+                        type = "number",
+                        step = "0.01"
+                    })
+                    @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Quantity</label>
+                    @Html.TextBoxFor(m => m.Quantity, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Quantity",
+                        type = "number"
+                    })
+                    @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Description</label>
+                    @Html.TextAreaFor(m => m.Description, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Description",
+                        rows = "3"
+                    })
+                    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Product Image</label>
+                    <input type="file" name="ProductImage" class="form-control" accept="image/*" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Is Alive</label>
+                    @Html.DropDownListFor(m => m.IsAlive,
+                        new SelectList(new[] {
+                            new { Value = "", Text = "-- N/A --" },
+                            new { Value = "true", Text = "Yes" },
+                            new { Value = "false", Text = "No" }
+                        }, "Value", "Text"),
+                        new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.IsAlive, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Is Featured</label>
+                    @Html.DropDownListFor(m => m.IsFeatured,
+                        new SelectList(new[] {
+                            new { Value = "", Text = "-- N/A --" },
+                            new { Value = "true", Text = "Yes" },
+                            new { Value = "false", Text = "No" }
+                        }, "Value", "Text"),
+                        new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.IsFeatured, "", new { @class = "text-danger" })
+                </div>
+
+                <a href="#" onclick="window.history.back()" class="btn btn-danger">Cancel</a>
+                <input type="submit" class="btn btn-primary" value="Save" />
+            }
+        </div>
+    </div>
+
+</div>

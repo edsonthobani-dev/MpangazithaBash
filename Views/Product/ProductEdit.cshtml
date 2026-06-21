@@ -1,0 +1,71 @@
+﻿@model MpangazithaBash.Models.ProductDetail
+
+@{
+    ViewBag.Title = "ProductEdit";
+    Layout = "~/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<div class="container-fluid">
+
+    <h1 class="h3 mb-2 text-gray-800">Edit Product</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            @using (Html.BeginForm("ProductUpdate", "Product", FormMethod.Post,
+                new { enctype = "multipart/form-data" }))
+            {
+                @Html.HiddenFor(model => model.ProductId)
+                @Html.HiddenFor(model => model.ProductImage)
+                @Html.HiddenFor(model => model.IsDelete)
+                @Html.HiddenFor(model => model.CreatedDate)
+
+                <div class="form-group">
+                    <label class="control-label">Product Name</label>
+                    @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Category</label>
+                    @Html.DropDownListFor(model => model.CategoryId,
+                        new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"),
+                        "-- Select Category --",
+                        new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Price</label>
+                    @Html.TextBoxFor(model => model.Price, new { @class = "form-control", type = "number", step = "0.01" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Quantity</label>
+                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control", type = "number" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Description</label>
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "3" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Product Image (leave empty to keep current)</label>
+                    <input type="file" name="ProductImage" class="form-control" accept="image/*" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Is Alive</label>
+                    @Html.CheckBoxFor(model => model.IsAlive)
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Is Featured</label>
+                    @Html.CheckBoxFor(model => model.IsFeatured)
+                </div>
+
+                <a href="#" onclick="window.history.back()" class="btn btn-danger">Cancel</a>
+                <input type="submit" class="btn btn-primary" value="Save" />
+            }
+        </div>
+    </div>
+
+</div>

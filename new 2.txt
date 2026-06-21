@@ -1,0 +1,105 @@
+Create Database dbMyOnlineShopping
+GO
+
+Use dbMyOnlineShopping
+GO
+
+Create Table Tbl_Category(
+
+      CategoryId Int identity Not Null,
+      CategoryName VarChar(max) Unique Not Null,
+        IsActive bit null,
+        IsDelete bit null,
+		Primary Key(CategoryId)
+		);
+
+Create Table	Tbl_Product( 
+		
+
+	ProductId Int identity Not Null,
+	ProductName  VarChar(max) Unique Not Null,
+	CategoryId Int  Not Null,
+        IsActive bit null,
+        IsDelete bit null,
+		CreatedDate DateTime null,
+		ModifiedDate DateTime null,
+		Description DateTime null,
+		ProductImage VarChar(max) Not Null,
+		IsFeatured bit null,
+		Quantity	 int Not Null,
+		Primary Key(ProductId),
+		Foreign Key(CategoryId) References Tbl_Category(CategoryId)
+);
+
+Create Table Tbl_CartStatus(
+
+		CartStatusId Int identity Not Null,
+		CartStatus	VarChar(max) Not Null,
+		Primary Key(CartStatusId)
+);
+
+Create Table Tbl_Role(
+
+		RoleId Int identity Not Null,
+		RoleName VarChar(max) Not Null,
+		Primary Key(CategoryId)	
+);
+
+
+Create Table Tbl_Member(
+				MemberId Int identity Not Null,
+				FirstName VarChar(max) Unique Not Null,
+				LastName VarChar(max) Unique Not Null,
+				Email VarChar(max) Unique Not Null,
+				Password VarChar(max) Not Null,
+				IsActive bit null,
+				IsDelete bit null,
+				CreatedOn DateTime Not Null,
+				ModifiedOn DateTime Not Null,
+				Primary Key(MemberId)
+
+);
+Create Table Tbl_ShippingDetail(
+
+		ShippingDetailId Int identity Not Null,
+		MemberId Int  Not Null,
+		Address  VarChar(max) Not Null,
+		City  VarChar(max) Not Null,
+		State  VarChar(max) Not Null,
+		Country  VarChar(max) Not Null,
+		ZipCode  VarChar(max) Not Null,
+		OrderId Int  Not Null,
+		AmountPaid Decimal(10,2) Not Null,
+		PaymentType  VarChar(max) Not Null,
+		Primary Key(ShippingDetailId),
+		Foreign Key(MemberId) References Tbl_Member(MemberId)
+	);
+	
+Create Table Tbl_MemberRole(
+
+		MemberRoleId Int identity Not Null,
+		MemberId Int  Not Null,
+		RoleId	Int  Not Null,
+		Primary Key(MemberRoleId),
+		Foreign Key(MemberId) References Tbl_Member(MemberId),
+		Foreign Key(RoleId) References Tbl_Role(RoleId)
+);
+
+Create Table Tbl_Cart(
+
+		CartId Int identity Not Null,
+		ProductId Int  Not Null,
+		MemberId Int  Not Null,
+		CartStatusId Int  Not Null,
+		Primary Key(CategoryId),
+		Foreign Key(ProductId) References Tbl_Product(ProductId),
+		Foreign Key(MemberId) References Tbl_Member(MemberId),
+		Foreign Key(CartStatusId) References Tbl_CartStatus(CartStatusId)
+);
+Create Table Tbl_SlideImage(
+
+		SlideImageId Int identity Not Null,
+		SlideTitle VarChar(max) Not Null,
+		SlideImage	VarChar(max) Not Null,
+		Primary Key(SlideImageId)	
+);

@@ -1,0 +1,66 @@
+﻿@model MpangazithaBash.Models.CategoryDetail
+
+@{
+    ViewBag.Title = "UpdateCategory";
+    Layout = "~/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">
+        @if (Model.CategoryId == 0)
+        {
+            <span>Add New Category</span>
+        }
+        else
+        {
+            <span>Edit Category</span>
+        }
+    </h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            @using (Html.BeginForm("CategorySave", "Product", FormMethod.Post))
+            {
+                @Html.HiddenFor(m => m.CategoryId)
+
+                <div class="form-group">
+                    <label class="control-label">Category Name</label>
+                    @Html.TextBoxFor(m => m.CategoryName, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Category Name",
+                        required = "required",
+                        autofocus = "autofocus"
+                    })
+                    @Html.ValidationMessageFor(m => m.CategoryName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Is Alive</label>
+                    @Html.DropDownListFor(m => m.IsAlive,
+                        new SelectList(new[] {
+                            new { Value = "", Text = "-- N/A --" },
+                            new { Value = "true", Text = "Yes" },
+                            new { Value = "false", Text = "No" }
+                        }, "Value", "Text"),
+                        new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Is Delete</label>
+                    @Html.DropDownListFor(m => m.IsDelete,
+                        new SelectList(new[] {
+                            new { Value = "", Text = "-- N/A --" },
+                            new { Value = "true", Text = "Yes" },
+                            new { Value = "false", Text = "No" }
+                        }, "Value", "Text"),
+                        new { @class = "form-control" })
+                </div>
+
+                <a href="#" onclick="window.history.back()" class="btn btn-danger">Cancel</a>
+                <input type="submit" class="btn btn-primary" value="Save" />
+            }
+        </div>
