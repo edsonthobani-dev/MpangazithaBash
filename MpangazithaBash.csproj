@@ -220,6 +220,9 @@
     <Compile Include="DAL\Tbl_Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Tbl_ProductImages.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Tbl_Role.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -234,7 +237,9 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CategoryDetail.cs" />
+    <Compile Include="Models\Home\CheckoutDetail.cs" />
     <Compile Include="Models\Home\HomeIndexViewModel.cs" />
+    <Compile Include="Models\Home\item.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ShippingDetail.cs" />
@@ -2148,6 +2153,7 @@
     <Content Include="DAL\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="README.md" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -2201,6 +2207,16 @@
     <Content Include="Views\Product\ProductEdit.cshtml" />
     <Content Include="Views\Product\UpdateProduct.cshtml" />
     <Content Include="Views\Product\ProductAdd.cshtml" />
+    <Content Include="Views\Home\Cart.cshtml" />
+    <Content Include="Views\Home\Checkout.cshtml" />
+    <Content Include="Views\Home\CheckoutSuccess.cshtml" />
+    <Content Include="Views\Home\Payment.cshtml" />
+    <Content Include="Views\Home\Location.cshtml" />
+    <Content Include="Views\Home\ProductDetail.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\OrderHistory.cshtml" />
+    <Content Include="Views\Product\Orders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

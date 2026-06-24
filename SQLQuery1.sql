@@ -104,6 +104,14 @@ Create Table Tbl_SlideImage(
 		Primary Key(SlideImageId)	
 );
 
+CREATE TABLE Tbl_ProductImages
+(
+    ImageId INT IDENTITY NOT NULL PRIMARY KEY,
+    ProductId INT NOT NULL,
+    ImagePath VARCHAR(MAX) NOT NULL,
+    FOREIGN KEY (ProductId) REFERENCES Tbl_Product(ProductId)
+);
+
 SELECT CategoryId, CategoryName, IsDelete , IsAlive
 FROM Tbl_Category;
 
@@ -121,3 +129,13 @@ WHERE TABLE_NAME = 'Tbl_Product'
 
 ALTER TABLE Tbl_Product
 ALTER COLUMN Description VARCHAR(max)
+
+SELECT COLUMN_NAME, DATA_TYPE 
+FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE TABLE_NAME = 'Tbl_Cart'
+
+INSERT INTO Tbl_CartStatus (CartStatus) VALUES ('Pending')
+INSERT INTO Tbl_CartStatus (CartStatus) VALUES ('Completed')
+INSERT INTO Tbl_CartStatus (CartStatus) VALUES ('Cancelled')
+
+SELECT * FROM Tbl_CartStatus

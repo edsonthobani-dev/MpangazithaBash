@@ -1,53 +1,92 @@
-﻿<!DOCTYPE html>
+﻿@using MpangazithaBash.Models.Home;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>@ViewBag.Title - My ASP.NET Application</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/MyMainLayOut.css" rel="stylesheet" />
-
     @Scripts.Render("~/bundles/modernizr")
 </head>
 
 <body>
 
-    <!-- HEADER (NO EXTRA CONTAINER OUTSIDE) -->
     <div class="container">
-
         <div class="row">
+
+            <!-- LOGO -->
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="logo">
-                    <h1><a href="#">Online <span>Shopping Store</span></a></h1>
+                    <h1><a href="@Url.Action("Index", "Home")">Online <span>Shopping Store</span></a></h1>
                     <p>Mpangazitha's Shop</p>
                 </div>
             </div>
 
-            <div class="col-md-6 col-sm-6 col-xs-6">
-                <div class="account">
-                    <h4>Call</h4>
-                    <p>0680699772</p>
+            <!-- CART TOP RIGHT -->
+            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                <div style="display:inline-block; margin-top:20px;">
+                    <a href="@Url.Action("Cart", "Home")" class="btn btn-default">
+                        <i class="fa fa-shopping-cart"></i>
+                        Cart
+                        @if (Session["cart"] != null && (Session["cart"] as List<item>).Count > 0)
+                        {
+                            <span class="badge" style="background:#2c3e50; color:#fff;">
+                                @((Session["cart"] as List<item>).Count)
+                            </span>
+                        }
+                    </a>
                 </div>
             </div>
-        </div>
 
-        <!-- NAV -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="nav-menus">
-                    <ul class="nav nav-pills">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#">Location</a></li>
-                        <li><a href="#">About</a></li>
-                    </ul>
+            <!-- NAV -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nav-menus">
+                        <ul class="nav nav-pills">
+                            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                            <li><a href="@Url.Action("Location", "Home")">Location</a></li>
+                            <li><a href="@Url.Action("About", "Home")">About</a></li>
+
+                            @if (Session["member"] != null)
+                            {
+                                var member = (MpangazithaBash.DAL.Tbl_Member)Session["member"];
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-user"></i> @member.FirstName
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("OrderHistory", "Home")">
+                                        <i class="fa fa-history"></i> My Orders
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Logout", "Home")">
+                                        <i class="fa fa-sign-out"></i> Logout
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="@Url.Action("Login", "Home")">
+                                        <i class="fa fa-sign-in"></i> Login
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Register", "Home")">
+                                        <i class="fa fa-user-plus"></i> Register
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
 
     <!-- PAGE CONTENT -->
     @RenderBody()
@@ -58,31 +97,31 @@
         <footer>
             <div class="row">
                 <div class="col-md-12 copyright">
-
                     <div class="col-md-6 col-sm-6 copyright-left">
-                        <p>&copy; @DateTime.Now.Year - OnlineShoppingStore. All Right  reserved</p>
-
+                        <p>&copy; @DateTime.Now.Year - OnlineShoppingStore. All Rights Reserved</p>
                     </div>
-
                     <div class="col-md-6 col-sm-6 copyright-right">
-                        
                         <ul class="list-unstyled list-social">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook-square"> </i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"> </i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-google-plus"> </i></a></li>
-                            
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook-square"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-google-plus"></i></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-           
         </footer>
     </div>
 
-    <!-- SCRIPTS (ONLY ONCE - FIXED) -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <!-- DROPDOWN FIX - in case Bootstrap JS not loading -->
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-toggle').dropdown();
+        });
+    </script>
 
 </body>
 </html>

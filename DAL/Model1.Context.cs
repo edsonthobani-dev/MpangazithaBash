@@ -31,6 +31,7 @@ namespace MpangazithaBash.DAL
         public virtual DbSet<Tbl_Member> Tbl_Member { get; set; }
         public virtual DbSet<Tbl_MemberRole> Tbl_MemberRole { get; set; }
         public virtual DbSet<Tbl_Product> Tbl_Product { get; set; }
+        public virtual DbSet<Tbl_ProductImages> Tbl_ProductImages { get; set; }
         public virtual DbSet<Tbl_Role> Tbl_Role { get; set; }
         public virtual DbSet<Tbl_ShippingDetail> Tbl_ShippingDetail { get; set; }
         public virtual DbSet<Tbl_SlideImage> Tbl_SlideImage { get; set; }

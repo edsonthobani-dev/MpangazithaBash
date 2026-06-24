@@ -1,0 +1,74 @@
+﻿@model List<MpangazithaBash.DAL.Tbl_Cart>
+
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Order Management</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All Orders</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Order No.</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="6">No orders found</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td>@order.CartId</td>
+                                    <td>@order.Tbl_Member.FirstName @order.Tbl_Member.LastName</td>
+                                    <td>@order.Tbl_Product.ProductName</td>
+                                    <td>R @order.Tbl_Product.Price</td>
+                                    <td>
+                                        <span class="badge
+                                            @(order.CartStatusId == 1 ? "badge-warning" :
+                                              order.CartStatusId == 2 ? "badge-success" :
+                                              "badge-danger")">
+                                            @order.Tbl_CartStatus.CartStatus
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @using (Html.BeginForm("UpdateOrderStatus", "Product", FormMethod.Post))
+                                        {
+                                            @Html.Hidden("cartId", order.CartId)
+                                            <select name="cartStatusId" class="form-control" style="width:130px; display:inline-block;">
+                                                <option value="1" @(order.CartStatusId == 1 ? "selected" : "")>Pending</option>
+                                                <option value="2" @(order.CartStatusId == 2 ? "selected" : "")>Completed</option>
+                                                <option value="3" @(order.CartStatusId == 3 ? "selected" : "")>Cancelled</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                Update
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

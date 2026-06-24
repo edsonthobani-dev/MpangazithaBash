@@ -14,13 +14,14 @@ namespace MpangazithaBash.Controllers
     public class ProductController : Controller
     {
         public GenericUnitOfWork _unitofWork = new GenericUnitOfWork();
+        dbMyOnlineShoppingEntities context = new dbMyOnlineShoppingEntities();
 
         // =================== CATEGORIES ===================
         public List<SelectListItem> GetCategory()
         {
             List<SelectListItem> list = new List<SelectListItem>();
             var cat = _unitofWork.GetIRepositoryInstance<Tbl_Category>().GetAllRecords();
-            foreach(var item in cat)
+            foreach (var item in cat)
             {
                 list.Add(new SelectListItem { Value = item.CategoryId.ToString(), Text = item.CategoryName });
 
@@ -78,7 +79,7 @@ namespace MpangazithaBash.Controllers
 
 
         // =================== PRODUCTS ===================
-        
+
         public ActionResult Product()
         {
             List<Tbl_Product> allproducts = _unitofWork.GetIRepositoryInstance<Tbl_Product>()
@@ -87,7 +88,7 @@ namespace MpangazithaBash.Controllers
                 .ToList();
             return View(allproducts);
         }
-       
+
         public ActionResult ProductAdd()
         {
             ViewBag.CategoryList = GetCategory();
@@ -95,10 +96,10 @@ namespace MpangazithaBash.Controllers
                 .GetAllRecordsIQueryable()
                 .Where(i => i.isDelete == false)
                 .ToList();
-           
+
             return View(new ProductDetail());
         }
-        
+
         public ActionResult ProductEdit(int? ProductId)
         {
             ProductDetail pd;
@@ -127,13 +128,13 @@ namespace MpangazithaBash.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProductSave(Tbl_Product tbl_product, HttpPostedFileBase ProductImage)
+        public ActionResult ProductSave(Tbl_Product tbl_product, HttpPostedFileBase ProductImage, IEnumerable<HttpPostedFileBase> AdditionalImages)
         {
+            // main image
             if (ProductImage != null && ProductImage.ContentLength > 0)
             {
                 string fileName = Path.GetFileName(ProductImage.FileName);
                 string path = Path.Combine(Server.MapPath("~/Images/"), fileName);
-                // Create Images folder if it doesn't exist
                 if (!Directory.Exists(Server.MapPath("~/Images/")))
                     Directory.CreateDirectory(Server.MapPath("~/Images/"));
                 ProductImage.SaveAs(path);
@@ -141,14 +142,37 @@ namespace MpangazithaBash.Controllers
             }
             else
             {
-                tbl_product.ProductImage = "default.jpg"; // ✅ default if no image
+                tbl_product.ProductImage = "default.jpg";
             }
 
             tbl_product.CreatedDate = DateTime.Now;
             tbl_product.ModifiedDate = DateTime.Now;
             tbl_product.IsDelete = false;
 
-            _unitofWork.GetIRepositoryInstance<Tbl_Product>().Add(tbl_product);
+            context.Tbl_Product.Add(tbl_product);
+            context.SaveChanges();
+
+            // save additional images
+            if (AdditionalImages != null)
+            {
+                foreach (var image in AdditionalImages)
+                {
+                    if (image != null && image.ContentLength > 0)
+                    {
+                        string fileName = Path.GetFileName(image.FileName);
+                        string path = Path.Combine(Server.MapPath("~/Images/"), fileName);
+                        image.SaveAs(path);
+
+                        context.Tbl_ProductImages.Add(new Tbl_ProductImages()
+                        {
+                            ProductId = tbl_product.ProductId,
+                            ImagePath = fileName
+                        });
+                    }
+                }
+                context.SaveChanges();
+            }
+
             return RedirectToAction("Product");
         }
 
@@ -178,6 +202,33 @@ namespace MpangazithaBash.Controllers
             tbl_product.ModifiedDate = DateTime.Now;
             _unitofWork.GetIRepositoryInstance<Tbl_Product>().Update(tbl_product);
             return RedirectToAction("Product");
+        }
+
+
+        public ActionResult Orders()
+        {
+            var orders = context.Tbl_Cart
+                .Include("Tbl_Product")
+                .Include("Tbl_Member")
+                .Include("Tbl_CartStatus")
+                .ToList();
+            return View(orders);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateOrderStatus(int cartId, int cartStatusId)
+        {
+            var order = context.Tbl_Cart.Find(cartId);
+            if (order != null)
+            {
+                order.CartStatusId = cartStatusId;
+                context.SaveChanges();
+            }
+            return RedirectToAction("Orders");
+        }
+        public ActionResult Dashboard()
+        {
+            return View();
         }
     }
 }

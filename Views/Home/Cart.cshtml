@@ -1,0 +1,63 @@
+﻿@model List<MpangazithaBash.Models.Home.item>
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+<div class="container">
+    <h2>My Cart</h2>
+
+    @if (Model.Count == 0)
+    {
+        <p>Your cart is empty.</p>
+    }
+    else
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.tbl_product.ProductName</td>
+                        <td>R @item.tbl_product.Price</td>
+                        <td>
+                            <a href="@Url.Action("RemoveFromCart", "Home", new { productId = item.tbl_product.ProductId })"
+                               class="btn btn-danger btn-xs">-</a>
+
+                            <span style="margin: 0 10px;">@item.Quantity</span>
+
+                            <a href="@Url.Action("IncreaseQuantity", "Home", new { productId = item.tbl_product.ProductId })"
+                               class="btn btn-success btn-xs">+</a>
+                        </td>
+                        <td>R @(item.tbl_product.Price * item.Quantity)</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4"><strong>Total</strong></td>
+                    <td>
+                        <strong>
+                            R @Model.Sum(i => i.tbl_product.Price * i.Quantity)
+                        </strong>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <a href="@Url.Action("Index", "Home")" class="btn btn-default">
+            <i class="fa fa-arrow-left"></i> Continue Shopping
+        </a>
+        <a href="@Url.Action("Checkout", "Home")" class="btn btn-primary">
+            <i class="fa fa-check"></i> Checkout
+        </a>
+    }
+</div>

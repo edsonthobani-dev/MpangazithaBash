@@ -18,6 +18,7 @@ namespace MpangazithaBash.DAL
         public Tbl_Product()
         {
             this.Tbl_Cart = new HashSet<Tbl_Cart>();
+            this.Tbl_ProductImages = new HashSet<Tbl_ProductImages>();
         }
     
         public int ProductId { get; set; }
@@ -36,5 +37,7 @@ namespace MpangazithaBash.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tbl_Cart> Tbl_Cart { get; set; }
         public virtual Tbl_Category Tbl_Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tbl_ProductImages> Tbl_ProductImages { get; set; }
     }
 }
