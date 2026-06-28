@@ -1,4 +1,4 @@
-#ET Mtshiliba 0680699772 @edsonthobanigmail.com
+#ET Mtshiliba 
 # MpangazithaBash Online Shopping Store
 
 A full-stack e-commerce web application built with ASP.NET MVC, Entity Framework, and SQL Server.
@@ -223,7 +223,7 @@ MpangazithaBash/
 
 Built by **Edison Thobani Mtshiliba (MpangazithaBash)** as a second-year at university of johannesburg, project demonstrating full-stack web development skills using ASP.NET MVC.
 
-- GitHub: [@MpangazithaBash](https://github.com/MpangazithaBash)
+- GitHub: [@edsonthobani-dev](https://github.com/edsonthobani-dev/MpangazithaBash)
 
 ## 📄 License
 
